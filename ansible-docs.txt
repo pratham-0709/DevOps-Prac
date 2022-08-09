@@ -1,0 +1,108 @@
+For Ubuntu
+
+steps : 
+1. create 2 vms ( 1 as master and 2nd as slave)
+
+2. login into master vm 
+   sudo su -     ## use root user
+   
+3. install below commands
+
+  sudo apt-get update
+  sudo apt install software-properties-common
+  sudo apt-add-repository ppa:ansible/ansible
+  sudo apt update
+  sudo apt-get install ansible
+
+## check ssh with salve machine
+4 . ssh ubuntu@<slave>
+   
+  got permission error
+
+  after that follow below steps
+
+#be on master
+5. cd .ssh/
+
+6 ssh-keygen
+7 cat id_rsa.pub
+
+8 login into slave
+9 . sudo su -
+10 . cd .ssh/
+
+11 . vim authorize_key
+
+12 paste master id_rsa.pub into slave authorized_key file ans save
+
+13 again login into master as root
+    # sudo su 
+
+   go inside 
+   #cd /etc/ansible
+
+#echo "<slave-ip>" >> hosts
+then run command 
+
+#ansible -m ping all
+
+u got green pong responce
+
+after that create new demo.yml
+
+#vim demo.yml
+
+---
+- hosts: all
+  become: true
+  become_method: sudo
+ 
+  tasks:
+    - name: "Update packages and upgrade"
+      apt:
+        update_cache: true
+        upgrade: dist
+        force_apt_get: true
+    - name: "Install Apache server"
+      apt:
+        name: apache2
+        state: latest
+    - name: "Create document root"
+      file:
+        path: "/var/www/html"
+        state: directory
+        owner: "www-data"
+        mode: 0755
+    - name: "Enable Apache on Firewall"
+      ufw:
+        rule: allow
+        port: 80
+        proto: tcp
+    - name: "restart apache2 service"
+      service:
+        name: apache2
+        state: restarted
+
+and save
+ 
+run command 
+
+#ansible-playbook demo.yml
+
+after running above command
+
+copy slave public ip insert into browser 
+
+apache page is displayed
+
+https://github.com/cri-o/cri-o/blob/main/install.md                                                          
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,60 @@
+
+http://13.235.24.243:8080/
+
+create account on aws 
+
+steps 
+
+launch 2 vm amzon linux
+
+step 2
+
+login into 1 vm 
+
+install docker 
+
+yum install docker -y
+
+step 3
+
+jenkins installation using docker 
+
+docker run -d --name jenkins -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts-jdk11
+
+step 4
+
+create github account 
+create one repo example test 
+
+create one shell script example demo.sh
+
+!/bin/bash
+
+echo "docker installation"
+yum install docker -y
+
+service docker start
+
+
+step 5
+
+login into jenkins server
+
+create freestyle job example   demo
+
+configure your github account with that job
+
+go to build option
+
+select execute shell
+
+echo "welcome"
+
+
+save and apply
+
+
+
+
+
+https://youtu.be/G0arKBpm12w
